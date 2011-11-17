@@ -8,6 +8,8 @@ def intMonth(m):
         if m.find(mo) == 0:
             return months.index(mo)
 
+day0 = datetime.date(2010,1,1).toordinal()
+
 cmd = "git log > temp.log"
 os.system(cmd)
 
@@ -27,7 +29,8 @@ for i in range(len(lines)):
         hr = int(tim[0])
         mn = int(tim[1])
         sec = int(tim[2])
-
         comment = lines[i+4].strip()
-        print commit, yr, months[mo], date, hr, mn, sec, comment
+        day = datetime.date(yr, mo+1, date+1).toordinal() - day0
+        hour = hr + mn/60.0 + sec/3600.0
+        print commit, day, hour, yr, months[mo], date, hr, mn, sec, comment
         
