@@ -1,7 +1,7 @@
 # timekeepr
 import os, sys, time, datetime
 
-months = ('jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sept', 'oct', 'nov', 'dec')
+months = ('jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec')
 def intMonth(m):
     m = m.lower()
     for mo in months:
@@ -21,15 +21,18 @@ days = {}
 for i in range(len(lines)):
     if lines[i][:6] == "commit":
         commit = lines[i].split()[1]
-        dateline = lines[i+2].split()
+        for j in range(1,5):
+            if lines[i+j][:5] == "Date:":
+                break
+        dateline = lines[i+j].split()
         yr = int(dateline[5])
         mo = intMonth(dateline[2])
-        date = int(dateline[3])
+        date = int(dateline[3])-1
         tim = dateline[4].split(":")
         hr = int(tim[0])
         mn = int(tim[1])
         sec = int(tim[2])
-        comment = lines[i+4].strip()
+        comment = lines[i+j+2].strip()
 ##        print commit, yr, months[mo], date, hr, mn, sec, comment
 
         #convert into day + hour since 2010
@@ -69,7 +72,7 @@ for i in keys:
             h += "   "
     c = ""
     for j in range(len(day['comments'])-1, -1, -1):
-        c += day['comments'][j][:30] + "; "
+        c += day['comments'][j][:35] + "; "
     c = c[:-1]
-    d = "%12s" % day['date']
-    print d, h, c
+    d = "%10s" % day['date']
+    print d, h, c[-144:-1]
