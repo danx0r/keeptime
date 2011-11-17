@@ -65,4 +65,4 @@ for i in keys:
             h += "%3d" % j
         else:
             h += "   "
-    print h, day['commits'][-1][:6], day['comments']
+    print h, day['comments']
