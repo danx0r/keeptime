@@ -1,1 +1,2 @@
 print text graphically representing hours worked in a 24-hour period using git log
+also comment summary somehow?
