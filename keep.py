@@ -1,6 +1,13 @@
 # timekeepr
 import os, sys, time, datetime
 
+months = ('jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sept', 'oct', 'nov', 'dec')
+def intMonth(m):
+    m = m.lower()
+    for mo in months:
+        if m.find(mo) == 0:
+            return months.index(mo)
+
 cmd = "git log > temp.log"
 os.system(cmd)
 
@@ -13,14 +20,14 @@ for i in range(len(lines)):
     if lines[i][:6] == "commit":
         commit = lines[i].split()[1]
         dateline = lines[i+2].split()
-        yr = dateline[5]
-        mo = dateline[2]
-        date = dateline[3]
+        yr = int(dateline[5])
+        mo = intMonth(dateline[2])
+        date = int(dateline[3])
         tim = dateline[4].split(":")
-        hr = tim[0]
-        mn = tim[1]
-        sec = tim[2]
-        
+        hr = int(tim[0])
+        mn = int(tim[1])
+        sec = int(tim[2])
+
         comment = lines[i+4].strip()
-        print commit, yr, mo, date, hr, mn, sec, comment
+        print commit, yr, months[mo], date, hr, mn, sec, comment
         
