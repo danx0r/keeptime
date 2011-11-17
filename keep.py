@@ -30,7 +30,7 @@ for i in range(len(lines)):
         mn = int(tim[1])
         sec = int(tim[2])
         comment = lines[i+4].strip()
-        print commit, yr, months[mo], date, hr, mn, sec, comment
+##        print commit, yr, months[mo], date, hr, mn, sec, comment
 
         #convert into day + hour since 2010
         day = datetime.date(yr, mo+1, date+1).toordinal() - day0
@@ -42,9 +42,12 @@ for i in range(len(lines)):
             hour += 24
             day -= 1
 
+        date = datetime.date.fromordinal(day0+day)
+
         if day not in days:
             days[day] = {
                 'hist':[0 for i in range(24)],
+                'date': date,
                 'commits':[],
                 'comments':[]
                 }
@@ -54,7 +57,6 @@ for i in range(len(lines)):
         ihr = int(hour)
         hist[ihr] += 1
 
-print "----------------------------------------------------------------------"
 keys = days.keys()
 keys.sort()
 for i in keys:
@@ -65,4 +67,9 @@ for i in keys:
             h += "%3d" % j
         else:
             h += "   "
-    print h, day['comments']
+    c = ""
+    for j in range(len(day['comments'])-1, -1, -1):
+        c += day['comments'][j][:30] + "; "
+    c = c[:-1]
+    d = "%12s" % day['date']
+    print d, h, c
