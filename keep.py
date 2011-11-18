@@ -8,6 +8,13 @@ def intMonth(m):
         if m.find(mo) == 0:
             return months.index(mo)
 
+def agglomCom(c):
+    c = ""
+    for j in range(len(day['comments'])-1, -1, -1):
+        c += day['comments'][j][:35] + "; "
+    c = c[:-1]
+    return c
+
 day0 = datetime.date(2010,1,1).toordinal()
 
 cmd = "git log > temp.log"
@@ -70,9 +77,6 @@ for i in keys:
             h += "%3d" % j
         else:
             h += "   "
-    c = ""
-    for j in range(len(day['comments'])-1, -1, -1):
-        c += day['comments'][j][:35] + "; "
-    c = c[:-1]
+    c = agglomCom(day['comments'])
     d = "%10s" % day['date']
     print d, h, c[-144:-1]
