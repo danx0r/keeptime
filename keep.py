@@ -11,30 +11,13 @@ def intMonth(m):
 def agglomCom(c):
     c = ""
     for j in range(len(day['comments'])-1, -1, -1):
-        c += day['comments'][j][:35] + "; "
+        c += day['comments'][j][:33] + "; "
     c = c[:-1]
     return c
 
-##def agglomCom(c):
-##    words = {}
-##    for com in c:
-##        for w in com.split():
-##            w = w.replace(".", "")
-##            w = w.replace(",", "")
-##            w = w.replace(":", "")
-##            w = w.replace(";", "")
-##            w = w.replace("(", "")
-##            w = w.replace(")", "")
-##            w = w.strip()
-##            if w in words:
-##                words[w] += 1
-##            else:
-##                words[w] = 1
-##    return str(words)
-
 day0 = datetime.date(2010,1,1).toordinal()
 
-cmd = "git log -g | grep -v Reflog > temp.log"
+cmd = "git log | grep -v Reflog > temp.log"
 os.system(cmd)
 
 f = open("temp.log")
