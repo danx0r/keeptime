@@ -49,6 +49,7 @@ for i in range(len(lines)):
             if lines[i+j][:5] == "Date:":
                 break
         dateline = lines[i+j].split()
+        zone = int(dateline[-1][:-2])
         yr = int(dateline[5])
         mo = intMonth(dateline[2])
         date = int(dateline[3])-1
@@ -62,6 +63,9 @@ for i in range(len(lines)):
         #convert into day + hour since 2010
         day = datetime.date(yr, mo+1, date+1).toordinal() - day0
         hour = hr + mn/60.0 + sec/3600.0
+
+        #adjust for time zone (assume CA ftw!)
+        hour -= zone + 8
 
         #move it all back 6 hours (work cycle from 6am - 6am)
         hour -= 6
