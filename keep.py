@@ -17,8 +17,25 @@ def agglomCom(c):
 
 day0 = datetime.date(2010,1,1).toordinal()
 
-cmd = "git log | grep -v Reflog > temp.log"
+branches = []
+cmd = "git branch > temp.log"
 os.system(cmd)
+f = open("temp.log")
+lines = f.readlines()
+for line in lines:
+    if "*" not in line:
+        branches.append(line.strip())
+f.close()
+print branches
+
+#start with log of branch we're on
+cmd = "git log > temp.log"
+os.system(cmd)
+
+#add missing commits from other branches
+for branch in branches:
+    cmd = "git log HEAD..%s >> temp.log" % branch
+    os.system(cmd)
 
 f = open("temp.log")
 lines = f.readlines()
