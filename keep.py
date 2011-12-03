@@ -34,7 +34,7 @@ def agglomCom(c):
 
 day0 = datetime.date(2010,1,1).toordinal()
 
-cmd = "git log > temp.log"
+cmd = "git log -g | grep -v Reflog > temp.log"
 os.system(cmd)
 
 f = open("temp.log")
