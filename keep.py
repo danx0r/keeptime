@@ -100,4 +100,4 @@ for i in keys:
             h += "   "
     c = agglomCom(day['comments'])
     d = "%10s" % day['date']
-    print d, h, c[-144:-1]
+    print d, h, c[-144:]
