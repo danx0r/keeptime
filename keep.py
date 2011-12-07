@@ -11,7 +11,7 @@ def intMonth(m):
 def agglomCom(c):
     c = ""
     for j in range(len(day['comments'])-1, -1, -1):
-        c += day['comments'][j][:33] + "; "
+        c += day['comments'][j][:33] + "|"
     c = c[:-1]
     return c
 
