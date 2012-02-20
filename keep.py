@@ -46,8 +46,13 @@ for i in range(len(lines)):
     if lines[i][:6] == "commit":
         commit = lines[i].split()[1]
         for j in range(1,5):
+            if lines[i+j][:7] == "Author:":
+                w = lines[i+j].split()
+                author = w[1]
             if lines[i+j][:5] == "Date:":
                 break
+        if author.lower() not in ("dan", "danx0r", "dbm"):
+            continue
         dateline = lines[i+j].split()
         zone = int(dateline[-1][:-2])
         yr = int(dateline[5])
