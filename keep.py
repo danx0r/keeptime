@@ -25,8 +25,10 @@ lines = f.readlines()
 for line in lines:
     if "*" not in line:
         branches.append(line.strip())
+    else:
+        ourbranch = line.strip()
 f.close()
-print branches
+print "branches:", [ourbranch] + branches
 
 #start with log of branch we're on
 cmd = "git log > temp.log"
