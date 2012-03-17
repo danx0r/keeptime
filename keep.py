@@ -50,7 +50,7 @@ for root in roots:
         if branch == "master":
             cmd = "git log >> " + temp
         else:
-            cmd = "git log HEAD..%s >> " + temp
+            cmd = "git log HEAD..%s >> %s" % (branch, temp)
         print cmd
         os.system(cmd)
 
