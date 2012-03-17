@@ -15,31 +15,46 @@ def agglomCom(c):
     c = c[:-1]
     return c
 
+roots = ['.'] + sys.argv[1:]
+print "projects to track:", roots
+for i in range(len(roots)):
+    roots[i] = os.path.abspath(roots[i])
+
 day0 = datetime.date(2010,1,1).toordinal()
 
-branches = []
-cmd = "git branch > temp.log"
-os.system(cmd)
-f = open("temp.log")
-lines = f.readlines()
-for line in lines:
-    if "*" not in line:
-        branches.append(line.strip())
-    else:
-        ourbranch = line.strip()
+home = roots[0] + "/"
+temp = home + "__keep_temp_.log"
+temp2 = home + "__keep_temp2_.log"
+print "temp:", temp
+print "temp2:", temp2
+
+#make sure temp_keep.log exists but is empty
+f = open(temp, "w")
 f.close()
-print "branches:", [ourbranch] + branches
 
-#start with log of branch we're on
-cmd = "git log > temp.log"
-os.system(cmd)
-
-#add missing commits from other branches
-for branch in branches:
-    cmd = "git log HEAD..%s >> temp.log" % branch
+for root in roots:
+    os.chdir(root)
+    branches = []
+    cmd = "git branch > %s" % temp2
     os.system(cmd)
+    f = open(temp2)
+    lines = f.readlines()
+    for line in lines:
+        line = line.replace("*","").strip()
+        branches.append(line)
+    f.close()
+    print "branches:", branches
 
-f = open("temp.log")
+    #list of all commits
+    for branch in branches:
+        if branch == "master":
+            cmd = "git log >> " + temp
+        else:
+            cmd = "git log HEAD..%s >> " + temp
+        print cmd
+        os.system(cmd)
+
+f = open(temp)
 lines = f.readlines()
 
 days = {}
@@ -108,3 +123,5 @@ for i in keys:
     c = agglomCom(day['comments'])
     d = "%10s" % day['date']
     print d, h, c[-144:]
+
+os.system("rm %s %s" % (temp, temp2))
