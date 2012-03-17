@@ -112,16 +112,19 @@ for i in range(len(lines)):
 
 keys = days.keys()
 keys.sort()
+total = 0
 for i in keys:
     day = days[i]
     h = ""
     for j in day['hist']:
         if j:
             h += "%3d" % j
+            total += 1
         else:
             h += "   "
     c = agglomCom(day['comments'])
     d = "%10s" % day['date']
     print d, h, c[-144:]
 
+print "total hours with checkins:", total
 os.system("rm %s %s" % (temp, temp2))
