@@ -26,11 +26,6 @@ for arg in sys.argv[1:]:
 for i in range(len(roots)):
     roots[i] = os.path.abspath(roots[i])
 
-print "projects to track:",
-for r in roots:
-    print os.path.basename(r),
-print
-
 day0 = datetime.date(2010,1,1).toordinal()
 
 home = roots[0] + "/"
@@ -42,6 +37,7 @@ f = open(temp, "w")
 f.close()
 
 for root in roots:
+    print "tracking:", os.path.basename(root),
     os.chdir(root)
     branches = []
     cmd = "git branch > %s" % temp2
@@ -52,7 +48,10 @@ for root in roots:
         line = line.replace("*","").strip()
         branches.append(line)
     f.close()
-    print "branches:", branches
+    print "branches:",
+    for branch in branches:
+        print branch,
+    print
 
     #list of all commits
     for branch in branches:
@@ -126,7 +125,7 @@ for i in range(len(lines)):
 
 print """
 -- date--- -------------------24 hour cycle, checkins per hour -------------------- 
-             6  7  8  9 10 11 noon 1 2  3  4  5  6  7  8  9 10 11 mid 1  2  3  4  5
+             7  8  9 10 11 noon 1 2  3  4  5  6  7  8  9 10 11 mid 1  2  3  4  5  6
 """
 
 keys = days.keys()
