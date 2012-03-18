@@ -58,6 +58,7 @@ f = open(temp)
 lines = f.readlines()
 
 days = {}
+duplicates = set()
 
 for i in range(len(lines)):
     if lines[i][:6] == "commit":
@@ -80,6 +81,10 @@ for i in range(len(lines)):
         mn = int(tim[1])
         sec = int(tim[2])
         comment = lines[i+j+2].strip()
+        key = str(dateline) + "|" + comment
+        if key in duplicates:
+            continue
+        duplicates.add(key)
 ##        print commit, yr, months[mo], date, hr, mn, sec, comment
 
         #convert into day + hour since 2010
