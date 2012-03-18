@@ -1,5 +1,6 @@
 # timekeepr
 import os, sys, time, datetime
+COMMENTS = True
 
 months = ('jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec')
 def intMonth(m):
@@ -15,7 +16,13 @@ def agglomCom(c):
     c = c[:-1]
     return c
 
-roots = ['.'] + sys.argv[1:]
+roots = ['.']
+for arg in sys.argv[1:]:
+    if arg == "-nocomments":
+        COMMENTS = False
+    else:
+        roots.append(arg)
+
 print "projects to track:", roots
 for i in range(len(roots)):
     roots[i] = os.path.abspath(roots[i])
@@ -129,7 +136,7 @@ for i in keys:
             h += "   "
     c = agglomCom(day['comments'])
     d = "%10s" % day['date']
-    print d, h, c[-144:]
+    print d, h, c[-144:] if COMMENTS else ""
 
 print "total hours with checkins:", total
 os.system("rm %s %s" % (temp, temp2))
