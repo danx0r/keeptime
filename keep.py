@@ -124,25 +124,27 @@ for i in range(len(lines)):
         hist[ihr] += 1
 
 print """
--- date--- -------------------24 hour cycle, checkins per hour -------------------- 
-             7  8  9 10 11 noon 1 2  3  4  5  6  7  8  9 10 11 mid 1  2  3  4  5  6
+-- date--- -------------------24 hour cycle, checkins per hour ------------------------ 
+             7  8  9 10 11 noon 1 2  3  4  5  6  7  8  9 10 11 mid 1  2  3  4  5  6 hrs
 """
 
 keys = days.keys()
 keys.sort()
 total = 0
 for i in keys:
+    daytot = 0
     day = days[i]
     h = ""
     for j in day['hist']:
         if j:
             h += "%3d" % j
             total += 1
+            daytot += 1
         else:
             h += "   "
     c = agglomCom(day['comments'])
     d = "%10s" % day['date']
-    print d, h, c[-144:] if COMMENTS else ""
+    print d, h, "%2d " % daytot, c[-144:] if COMMENTS else ""
 
 print
 print "total hours with checkins:", total
