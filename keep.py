@@ -77,7 +77,7 @@ for i in range(len(lines)):
                 author = w[1]
             if lines[i+j][:5] == "Date:":
                 break
-        if author.lower() not in ("dan", "danx0r", "dbm"):
+        if (author.lower() not in ("dan", "danx0r", "dbm")) and ('miller' not in author.lower()) and ('daniel' not in author.lower()):
             continue
         dateline = lines[i+j].split()
         zone = int(dateline[-1][:-2])
