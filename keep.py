@@ -1,6 +1,7 @@
 # timekeepr
 import os, sys, time, datetime
 COMMENTS = True
+STARTDAY = -99999
 
 months = ('jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec')
 def intMonth(m):
@@ -16,17 +17,32 @@ def agglomCom(c):
     c = c[:-1]
     return c
 
+day0 = datetime.date(2010,1,1).toordinal()
+
 roots = ['.']
-for arg in sys.argv[1:]:
+i = 0
+while i < len(sys.argv[1:]):
+    arg = sys.argv[1:][i]
     if arg == "-nocomments":
         COMMENTS = False
+    elif arg == "-date":
+        i += 1
+        start = sys.argv[1:][i]
+        mo, da, yr = start.split("/")
+        yr = int(yr)
+        try:
+            mo = int(months.index(mo[:3].lower())) + 1
+        except:
+            mo = int(mo)
+        da = int(da)
+        STARTDAY = datetime.date(yr, mo, da).toordinal() - day0
+        print "start at", start, "= day", STARTDAY
     else:
         roots.append(arg)
+    i += 1
 
 for i in range(len(roots)):
     roots[i] = os.path.abspath(roots[i])
-
-day0 = datetime.date(2010,1,1).toordinal()
 
 home = roots[0] + "/"
 temp = home + "__keep_temp_.log"
@@ -107,6 +123,9 @@ for i in range(len(lines)):
         if hour < 0:
             hour += 24
             day -= 1
+
+        if day < STARTDAY:
+            continue
 
         date = datetime.date.fromordinal(day0+day)
 
