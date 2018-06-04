@@ -89,8 +89,8 @@ for i in range(len(lines)):
         commit = lines[i].split()[1]
         for j in range(1,5):
             if lines[i+j][:7] == "Author:":
-                w = lines[i+j].split()
-                author = w[1]
+                line = lines[i+j]
+                author = line[8:line.find("<")].strip()
             if lines[i+j][:5] == "Date:":
                 break
         if (author.lower() not in ("dan", "danx0r", "dbm")) and ('miller' not in author.lower()) and ('daniel' not in author.lower()):
