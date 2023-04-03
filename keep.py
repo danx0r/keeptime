@@ -36,7 +36,7 @@ while i < len(sys.argv[1:]):
             mo = int(mo)
         da = int(da)
         STARTDAY = datetime.date(yr, mo, da).toordinal() - day0
-        print "start at", start, "= day", STARTDAY
+        print("start at", start, "= day", STARTDAY)
     else:
         roots.append(arg)
     i += 1
@@ -51,9 +51,9 @@ temp2 = home + "__keep_temp2_.log"
 #make sure temp_keep.log exists but is empty
 f = open(temp, "w")
 f.close()
-
+print("ROOTS:", roots)
 for root in roots:
-    print "tracking:", os.path.basename(root),
+    print("tracking:", os.path.basename(root), end=' ')
     os.chdir(root)
     branches = []
     cmd = "git branch > %s" % temp2
@@ -64,14 +64,14 @@ for root in roots:
         line = line.replace("*","").strip()
         branches.append(line)
     f.close()
-    print "branches:",
+    print("branches:", end=' ')
     for branch in branches:
-        print branch,
-    print
+        print(branch, end=' ')
+    print()
 
     #list of all commits
     for branch in branches:
-        if branch == "master":
+        if branch in ["master", "main"]:
             cmd = "git log >> " + temp
         else:
             cmd = "git log HEAD..%s >> %s" % (branch, temp)
@@ -91,6 +91,7 @@ for i in range(len(lines)):
             if lines[i+j][:7] == "Author:":
                 line = lines[i+j]
                 author = line[8:line.find("<")].strip()
+                #print("AUTHOR:", author, end=' ')
             if lines[i+j][:5] == "Date:":
                 break
         if (author.lower() not in ("dan", "danx0r", "dbm")) and ('miller' not in author.lower()) and ('daniel' not in author.lower()):
@@ -142,12 +143,12 @@ for i in range(len(lines)):
         ihr = int(hour)
         hist[ihr] += 1
 
-print """
+print("""
 -- date--- -------------------24 hour cycle, checkins per hour ------------------------ 
              7  8  9 10 11 noon 1 2  3  4  5  6  7  8  9 10 11 mid 1  2  3  4  5  6 hrs
-"""
+""")
 
-keys = days.keys()
+keys = list(days.keys())
 keys.sort()
 total = 0
 for i in keys:
@@ -163,8 +164,8 @@ for i in keys:
             h += "   "
     c = agglomCom(day['comments'])
     d = "%10s" % day['date']
-    print d, h, "%2d " % daytot, c[-144:] if COMMENTS else ""
+    print(d, h, "%2d " % daytot, c[-144:] if COMMENTS else "")
 
-print
-print "total hours with checkins:", total
+print()
+print("total hours with checkins:", total)
 os.system("rm %s %s" % (temp, temp2))
